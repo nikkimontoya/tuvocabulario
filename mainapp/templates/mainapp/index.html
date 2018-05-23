@@ -1,0 +1,13 @@
+<html>
+{% load static %}
+<body>
+<h1>Добро пожаловать на Tu vocabulario</h1>
+<form>
+	<input id="vocabulary-input" type="text" name="word"/>
+	<input id="vocabulary-submit" type="submit" name="submit"/>
+</form>
+<p id="result"></p>
+<script src="{% static 'mainapp/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'mainapp/js/script.js' %}"></script>
+</body>
+</html>
