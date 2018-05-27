@@ -26,6 +26,7 @@ SECRET_KEY = '%#-bjmi7kx9bj%aefnvsiuin536xq!as3p$l=^uc!m1u7)xv@%'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    '127.0.0.1',
     'tuvocabulario.pythonanywhere.com'
 ]
 

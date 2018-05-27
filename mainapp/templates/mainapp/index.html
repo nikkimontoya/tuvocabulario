@@ -3,10 +3,15 @@
 <body>
 <h1>Добро пожаловать на Tu vocabulario</h1>
 <form>
+    {% csrf_token %}
 	<input id="vocabulary-input" type="text" name="word"/>
 	<input id="vocabulary-submit" type="submit" name="submit"/>
 </form>
-<p id="result"></p>
+<p id="result">
+	<h2 id="result-heading"></h2>
+	<p id="result-translation"></p>
+
+</p>
 <script src="{% static 'mainapp/js/jquery-3.3.1.min.js' %}"></script>
 <script src="{% static 'mainapp/js/script.js' %}"></script>
 </body>

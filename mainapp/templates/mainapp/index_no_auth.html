@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/surface_styles.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/style.css' %}"/>
+</head>
+<body class="index-page">
+	<div class="page-wrapper">
+		<form id="auth-form">
+			<input type="email" placeholder="Username" name="userEmail"/>
+			<input type="password" placeholder="Password" name="userPassword"/>
+			<input class="btn--raised" type="submit" name="authFormSubmit"/>
+		</form>
+	</div>
+</body>
+</html>
