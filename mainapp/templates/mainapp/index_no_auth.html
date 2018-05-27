@@ -3,16 +3,67 @@
 <head>
 	{% load static %}
 	<title></title>
-	<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/surface_styles.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/materialize.min.css' %}"/>
 	<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/style.css' %}"/>
 </head>
 <body class="index-page">
-	<div class="page-wrapper">
-		<form id="auth-form">
-			<input type="email" placeholder="Username" name="userEmail"/>
-			<input type="password" placeholder="Password" name="userPassword"/>
-			<input class="btn--raised" type="submit" name="authFormSubmit"/>
-		</form>
+
+	<div class="page-wrapper valign-wrapper">
+	<div class="content-wrapper white-text center-align">
+<h1>Добро пожаловать на Tu Vocabulario</h1>
+<p>Наш сайт поможет вам расширить ваш словарный запас при изучении испанского языка. Для продолжения работы зайдите на сайт или зарегистрируйтесь.</p>
+
+<a class="waves-effect waves-light btn modal-trigger" href="#auth-wrapper">Войти или зарегистрироваться</a>
+</div>
+	<div id="auth-wrapper" class="tabs-wrapper modal modal-fixed-footer">
+	    <ul class="tabs row">
+	    	<li class="tab col s6">
+	    		<a href="#auth-form" class="active">Вход</a>
+	    	</li>
+	    	<li class="tab col s6">
+	    		<a href="#reg-form">Регистрация</a>
+	    	</li>
+	    </ul>
+	    
+        <form id="auth-form">
+        <div class="modal-content">
+            <div class="input-field">
+            	<input id="auth-form-email" type="email" name="authUserEmail"/>
+            	<label for="auth-form-email">Email</label>
+            </div>
+            <div class="input-field">
+            	<input id="auth-form-password" type="password" name="authUserPassword"/>
+            	<label for="auth-form-password">Пароль</label>
+            </div>
+            </div>
+            <div class="modal-footer">
+            <a id="auth-form-submit" class="waves-effect waves-light btn">Войти</a>
+            </div>
+        </form>
+
+        <form id="reg-form">
+        <div class="modal-content">
+            <div class="input-field">
+            	<input id="reg-form-email" type="email" name="regUserEmail"/>
+            	<label for="reg-form-email">Email</label>
+            </div>
+            <div class="input-field">
+            	<input id="reg-form-password" type="password" name="regUserPassword"/>
+            	<label for="reg-form-password">Пароль</label>
+            </div>
+            <div class="input-field">
+            	<input id="reg-form-confirm-password" type="password" name="regConfirmPassword"/>
+            	<label for="reg-form-confirm-password">Подтвердите пароль</label>
+            </div>
+            </div>
+            <div class="modal-footer">
+            <a id="reg-form-submit" class="waves-effect waves-light btn">Зарегистрироваться</a>
+            </div>
+        </form>
+        </div>
 	</div>
+	<script src="{% static 'mainapp/js/jquery-3.3.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'mainapp/js/materialize.min.js' %}"></script>
+	<script src="{% static 'mainapp/js/script.js' %}"></script>
 </body>
 </html>
