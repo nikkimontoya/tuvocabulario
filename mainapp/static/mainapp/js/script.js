@@ -1,16 +1,5 @@
 (
   function($) {
-    $(document).ready(function() {
-      $('.tabs').tabs(); 
-      
-
-      $('.modal').modal({
-        onOpenEnd: function() {
-          $('.tabs').tabs('_handleWindowResize');
-        }
-      });
-    });
-
   	$('#vocabulary-submit').click(function(e) {
   		  e.preventDefault();
         var text = $('#vocabulary-input').val();

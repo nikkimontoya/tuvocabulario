@@ -32,44 +32,46 @@
 		    </ul>
 		    
 	        <form id="auth-form">
-	        <div class="modal-content">
-	            <div class="input-field">
-	            	<input id="auth-form-email" type="email" name="authUserEmail"/>
-	            	<label for="auth-form-email">Email</label>
-	            </div>
-	            <div class="input-field">
-	            	<input id="auth-form-password" type="password" name="authUserPassword"/>
-	            	<label for="auth-form-password">Пароль</label>
-	            </div>
+	            {% csrf_token %}
+	            <div class="modal-content">
+	                <div class="input-field">
+	            	    <input id="auth-form-email" type="email" name="authUserEmail"/>
+	            	    <label for="auth-form-email">Email</label>
+	                </div>
+		            <div class="input-field">
+		            	<input id="auth-form-password" type="password" name="authUserPassword"/>
+		            	<label for="auth-form-password">Пароль</label>
+		            </div>
 	            </div>
 	            <div class="modal-footer">
-	            <a id="auth-form-submit" class="waves-effect waves-light btn">Войти</a>
+	                <a id="auth-form-submit" class="waves-effect waves-light btn">Войти</a>
 	            </div>
 	        </form>
 
 	        <form id="reg-form">
-	        <div class="modal-content">
-	            <div class="input-field">
-	            	<input id="reg-form-email" type="email" name="regUserEmail"/>
-	            	<label for="reg-form-email">Email</label>
-	            </div>
-	            <div class="input-field">
-	            	<input id="reg-form-password" type="password" name="regUserPassword"/>
-	            	<label for="reg-form-password">Пароль</label>
-	            </div>
-	            <div class="input-field">
-	            	<input id="reg-form-confirm-password" type="password" name="regConfirmPassword"/>
-	            	<label for="reg-form-confirm-password">Подтвердите пароль</label>
-	            </div>
+	            {% csrf_token %}
+	        	<div class="modal-content">
+		            <div class="input-field">
+		            	<input id="reg-form-email" type="email" name="regUserEmail"/>
+		            	<label for="reg-form-email">Email</label>
+		            </div>
+		            <div class="input-field">
+		            	<input id="reg-form-password" type="password" name="regUserPassword"/>
+		            	<label for="reg-form-password">Пароль</label>
+		            </div>
+		            <div class="input-field">
+		            	<input id="reg-form-confirm-password" type="password" name="regConfirmPassword"/>
+		            	<label for="reg-form-confirm-password">Подтвердите пароль</label>
+		            </div>
 	            </div>
 	            <div class="modal-footer">
-	            <a id="reg-form-submit" class="waves-effect waves-light btn">Зарегистрироваться</a>
+	            	<a id="reg-form-submit" class="waves-effect waves-light btn">Зарегистрироваться</a>
 	            </div>
 	        </form>
 	    </div>
 	</div>
 	<script src="{% static 'mainapp/js/jquery-3.3.1.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'mainapp/js/materialize.min.js' %}"></script>
-	<script src="{% static 'mainapp/js/script.js' %}"></script>
+	<script src="{% static 'mainapp/js/index_no_auth.js' %}"></script>
 </body>
 </html>
