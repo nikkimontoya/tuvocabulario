@@ -16,4 +16,17 @@
 
 .content-wrapper {
 	width: 100%;
+	padding: 0 15px;
+}
+
+@media(max-width: 767px) {
+	.welcome-header {
+		font-size: 3rem;
+	}
+}
+
+@media(max-width: 370px) {
+	.tabs-wrapper {
+		width: 300px;
+	}
 }
