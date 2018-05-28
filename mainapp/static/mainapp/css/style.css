@@ -19,9 +19,13 @@
 	padding: 0 15px;
 }
 
-@media(max-width: 767px) {
+@media(max-width: 600px) {
 	.welcome-header {
 		font-size: 3rem;
+	}
+
+	.account-page .nav-wrapper .material-icons {
+		margin-right: 0;
 	}
 }
 

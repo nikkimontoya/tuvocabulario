@@ -2,10 +2,11 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseRedirect
 import requests, json
 from django.urls import reverse
+from user.views import account
 
 def index(request):
     if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('user:account', args = (request.user.id,)))
+        return account(request, request.user.id)
     else:
 	    return render(request, 'mainapp/index_no_auth.html', {})
 

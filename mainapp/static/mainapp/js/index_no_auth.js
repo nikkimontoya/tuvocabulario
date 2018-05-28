@@ -27,7 +27,7 @@
 	    				$("#reg-form-email").addClass("invalid");
 	    				$("#reg-form-password").addClass("invalid");
 	    			} else if (response.status == 1) {
-	    				window.location = '/user/' + response.user_id
+	    				window.location.reload(true)
 	    			}
 	    		}
 	    	});
@@ -50,7 +50,7 @@
     				$("#auth-form-email").addClass("invalid");
     				$("#auth-form-password").addClass("invalid");
     			} else if (response.status == 1) {
-    				window.location = '/user/' + response.user_id
+    				window.location.reload(true)
     			}
     		}
     	});

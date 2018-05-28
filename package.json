@@ -1,0 +1,17 @@
+{
+  "name": "tuvocabulario",
+  "version": "1.0.0",
+  "description": "The web app to improve your spanish vocab",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gulp": "^3.9.1",
+  },
+  "devDependencies": {
+    "gulp-sass": "^4.0.1"
+  }
+}
