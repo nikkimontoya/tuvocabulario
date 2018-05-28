@@ -19,6 +19,21 @@
 	padding: 0 15px;
 }
 
+.dictionary-main-content {
+	padding: 40px 0;
+}
+
+#search-words-form {
+	display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+#search-words-form .input-field {
+	flex-grow: 2;
+	margin-right: 15px;
+}
+
 @media(max-width: 600px) {
 	.welcome-header {
 		font-size: 3rem;

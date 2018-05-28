@@ -12,29 +12,48 @@
 	<ul id="settings-dropdown" class="dropdown-content">
 		<li><a href="/user/logout">Выйти</a></li>
 	</ul>
-	<nav>
-		<div class="nav-wrapper">
-			<ul class="right">
-				<li>
-				    <a>
-				        <i class="material-icons left">book</i>
-				        <span class="hide-on-small-only">Словарь</span>
-				    </a>
-				</li>
-				<li>
-					<a>
-						<i class="material-icons left">fitness_center</i>
-						<span class="hide-on-small-only">Упражнения</span>
-					</a>
-				</li>
-				<li>
-					<a class="dropdown-trigger" data-target="settings-dropdown">
-						<i class="material-icons">settings</i>
-					</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
+	<div class="navbar-fixed">
+		<nav>
+			<div class="nav-wrapper">
+				<ul class="right">
+					<li>
+					    <a>
+					        <i class="material-icons left">book</i>
+					        <span class="hide-on-small-only">Словарь</span>
+					    </a>
+					</li>
+					<li>
+						<a href="/excercises/">
+							<i class="material-icons left">fitness_center</i>
+							<span class="hide-on-small-only">Упражнения</span>
+						</a>
+					</li>
+					<li>
+						<a class="dropdown-trigger" data-target="settings-dropdown">
+							<i class="material-icons">settings</i>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+	<section class="dictionary-main-content container">
+		<form id="search-words-form">
+			{% csrf_token %}
+		    <div class="input-field">
+			    <input id="search-words-input" type="text" name="searchWordField"/>
+			    <label for="search-words-input">Введите слово</label>
+
+			</div>
+			<a id="search-words-submit" class="waves-effect waves-light btn">
+				<i class="material-icons hide-on-med-and-up">search</i>
+				<span class="hide-on-small-only">Найти</span>
+			</a>
+		</form>
+
+		<h2 id="result-heading" class="red-text text-darken-4"></h2>
+		<p id="result-translation"></p>
+	</section>
 	<script src="{% static 'mainapp/js/jquery-3.3.1.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'mainapp/js/materialize.min.js' %}"></script>
 	<script src="{% static 'mainapp/js/account.js' %}"></script>
