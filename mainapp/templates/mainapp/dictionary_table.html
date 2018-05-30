@@ -1,0 +1,17 @@
+{% csrf_token %}
+<table>
+	<thead>
+		<tr>
+			<th>Слово</th>
+			<th>Перевод</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for user_word in user.userwords_set.all %}
+		<tr>
+			<td>{{ user_word.word.original }}</td>
+			<td>{{ user_word.word.translation }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>

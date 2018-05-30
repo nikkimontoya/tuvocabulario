@@ -3,7 +3,8 @@ from django.http import JsonResponse, HttpResponseRedirect
 import requests, json
 from django.urls import reverse
 from user.views import account
-from .models import WordForms, Dictionary
+from .models import WordForms, Dictionary, UserWords
+from django.contrib.auth.models import User
 
 def index(request):
     if request.user.is_authenticated:
@@ -20,6 +21,7 @@ def request_to_dictionary(request):
         word = wordForm.first().word
         responseObject['original'] = word.original
         responseObject['translation'] = word.translation
+        responseObject['wordId'] = word.id
     else:
         global token
         if token == '':
@@ -38,7 +40,19 @@ def request_to_dictionary(request):
         else:
             newWord = Dictionary(original = responseObject['original'], translation = responseObject['translation'], soundFileName = response['Translation']['SoundName'])
             newWord.save()
-            
+
+        responseObject['wordId'] = newWord.id
         newWord.wordforms_set.create(form = request.POST['text'])        
 
     return JsonResponse(responseObject)
+
+def add_to_dictionary(request, word_id):
+    q = UserWords.objects.filter(user = request.user.id, word = word_id)
+
+    if not q.exists():
+        request.user.userwords_set.create(word_id = word_id)
+
+    return JsonResponse({})
+
+def get_dictionary_table(request):
+    return render(request, 'mainapp/dictionary_table.html', {'user': request.user})

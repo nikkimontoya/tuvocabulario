@@ -51,8 +51,21 @@
 			</a>
 		</form>
 
-		<h2 id="result-heading" class="red-text text-darken-4"></h2>
-		<p id="result-translation"></p>
+        <div id="translation-card" class="card hide">
+        	<div class="card-content">
+				<span id="result-heading" class="card-title"></span>
+				<p id="result-translation"></p>
+			</div>
+			<div class="card-action">
+				{% csrf_token %}
+				<a id="add-to-dictionary" class="waves-effect waves-light btn" href="">Добавить в словарь</a>
+			</div>
+		</div>
+
+		<h2 class="red-text text-darken-4">Ваши слова</h2>
+		<div id="dictionary-table">
+			{% csrf_token %}
+		</div>
 	</section>
 	<script src="{% static 'mainapp/js/jquery-3.3.1.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'mainapp/js/materialize.min.js' %}"></script>
