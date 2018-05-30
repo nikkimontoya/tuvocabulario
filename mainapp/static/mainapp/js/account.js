@@ -14,11 +14,11 @@
         		method: 'POST',
         		data: {
         			text: text,
-              		csrfmiddlewaretoken: csrf_token
+              csrfmiddlewaretoken: csrf_token
         		},
         		success: function(response) {
-        			$('#result-heading').text(response.Heading);
-              		$('#result-translation').text(response.Translation.Translation);
+        			$('#result-heading').text(response.original);
+              		$('#result-translation').text(response.translation);
         		}
         	});
         }
