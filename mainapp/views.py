@@ -5,7 +5,7 @@ from django.urls import reverse
 from user.views import account
 from .models import WordForms, UniversalDictionary, UserWords
 from django.contrib.auth.models import User
-from nltk.stem import SnowballStemmer
+#from nltk.stem import SnowballStemmer
 
 def index(request):
     if request.user.is_authenticated:
