@@ -17,13 +17,13 @@
 			<div class="nav-wrapper">
 				<ul class="right">
 					<li>
-					    <a>
+					    <a href="/">
 					        <i class="material-icons left">book</i>
 					        <span class="hide-on-small-only">Словарь</span>
 					    </a>
 					</li>
 					<li>
-						<a href="/excercises/">
+						<a href="/exercises/">
 							<i class="material-icons left">fitness_center</i>
 							<span class="hide-on-small-only">Упражнения</span>
 						</a>
@@ -51,16 +51,7 @@
 			</a>
 		</form>
 
-        <div id="translation-card" class="card hide">
-        	<div class="card-content">
-				<span id="result-heading" class="card-title"></span>
-				<p id="result-translation"></p>
-			</div>
-			<div class="card-action">
-				{% csrf_token %}
-				<a id="add-to-dictionary" class="waves-effect waves-light btn" href="">Добавить в словарь</a>
-			</div>
-		</div>
+        <div id="translation-card" class="hide"></div>
 
 		<h2 class="red-text text-darken-4">Ваши слова</h2>
 		<div id="dictionary-table">

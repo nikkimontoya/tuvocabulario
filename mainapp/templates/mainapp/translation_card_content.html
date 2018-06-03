@@ -1,0 +1,13 @@
+<ul class="collection with-header">
+	<a href='#' class="close-translation red-text text-darken-4">
+		<i class="material-icons">close</i>
+	</a>
+    {% csrf_token %}
+    <li class="collection-header"><h4>{{ content.original }}</h4></li>
+    {% for translation in content.translations %}
+    	<a class="collection-item add-to-dictionary-link" href="add-to-dictionary/{{ translation.translationId }}">
+    		<i class="material-icons left">add</i>
+    		{{ translation.translation }}
+    	</a>
+    {% endfor %}
+  </ul>

@@ -2,14 +2,33 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Dictionary(models.Model):
-	original = models.CharField(max_length = 200)
-	translation = models.CharField(max_length = 200)
-	soundFileName = models.CharField(max_length = 200)
+	original = models.CharField(max_length = 1024)
 
-class UserWords(models.Model):
-	user = models.ForeignKey(User, on_delete = models.CASCADE)
-	word = models.ForeignKey(Dictionary, on_delete = models.CASCADE)
+class Translation(models.Model):
+	translation = models.CharField(max_length = 1024)
+	notes = models.CharField(max_length = 200)
+	original = models.ForeignKey(Dictionary, on_delete = models.CASCADE)
 
 class WordForms(models.Model):
 	word = models.ForeignKey(Dictionary, on_delete = models.CASCADE)
 	form = models.CharField(max_length = 200)
+
+class ModernDictionary(models.Model):
+	original = models.CharField(max_length = 1024)
+
+class ModernTranslation(models.Model):
+	translation = models.CharField(max_length = 1024)
+	notes = models.CharField(max_length = 200)
+	original = models.ForeignKey(ModernDictionary, on_delete = models.CASCADE)
+
+class UniversalDictionary(models.Model):
+	original = models.CharField(max_length = 1024)
+
+class UniversalTranslation(models.Model):
+	translation = models.CharField(max_length = 1024)
+	notes = models.CharField(max_length = 200)
+	original = models.ForeignKey(UniversalDictionary, on_delete = models.CASCADE)	
+
+class UserWords(models.Model):
+	user = models.ForeignKey(User, on_delete = models.CASCADE)
+	translation = models.ForeignKey(UniversalTranslation, on_delete = models.CASCADE, default = 1)	

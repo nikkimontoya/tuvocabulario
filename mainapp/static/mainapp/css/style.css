@@ -34,6 +34,40 @@
 	margin-right: 15px;
 }
 
+.exercises-links {
+	padding-top: 40px;
+	padding-bottom: 40px;
+}
+
+.exercises-links-container {
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.exercises-link {
+	flex-basis: calc(50% - 15px);
+}
+
+.exercises-link .card-content {
+	height: 150px;
+}
+
+.add-to-dictionary-link i {
+	vertical-align: bottom;
+}
+
+#result-body p {
+	margin-bottom: 5px;
+}
+
+.close-translation {
+	display: block;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
 @media(max-width: 600px) {
 	.welcome-header {
 		font-size: 3rem;

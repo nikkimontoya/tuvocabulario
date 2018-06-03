@@ -32,19 +32,17 @@
               csrfmiddlewaretoken: csrf_token
         		},
         		success: function(response) {
-        			$('#result-heading').text(response.original);
-              $('#result-translation').text(response.translation);
-              $('#add-to-dictionary').attr('href', '/add-to-dictionary/' + response.wordId + '/');
+              $('#translation-card').html(response);
               $('#translation-card').removeClass('hide');
         		}
         	});
         }
   	});
 
-  $('#add-to-dictionary').click(function(e) {
-    var button = $(this);
-    var csrf_token = button.closest('.card-action').find('input[name=csrfmiddlewaretoken]').val();
+  $('body').on('click', '.add-to-dictionary-link', function(e) {
     e.preventDefault();
+    var button = $(this);
+    var csrf_token = button.closest('ul').find('input[name=csrfmiddlewaretoken]').val();    
     $.ajax({
       url: button.attr('href'),
       method: 'POST',
@@ -53,7 +51,13 @@
       },
       success: function(response) {
         refreshDictionaryTable();
+        M.toast({html: 'Слово было успешно добавлено в ваш словарь'})
       }
     });
+  });
+
+  $('body').on('click', '.close-translation', function(e) {
+    e.preventDefault();
+    $('#translation-card').addClass('hide');
   });
 })(jQuery);

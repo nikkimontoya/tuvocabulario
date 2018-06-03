@@ -3,8 +3,9 @@ from django.http import JsonResponse, HttpResponseRedirect
 import requests, json
 from django.urls import reverse
 from user.views import account
-from .models import WordForms, Dictionary, UserWords
+from .models import WordForms, UniversalDictionary, UserWords
 from django.contrib.auth.models import User
+from nltk.stem import SnowballStemmer
 
 def index(request):
     if request.user.is_authenticated:
@@ -14,7 +15,7 @@ def index(request):
 
 token = '';
 def request_to_dictionary(request):
-    wordForm = WordForms.objects.filter(form = request.POST['text'])
+    '''wordForm = WordForms.objects.filter(form = request.POST['text'])
     responseObject = {}
   
     if wordForm.exists():
@@ -42,17 +43,59 @@ def request_to_dictionary(request):
             newWord.save()
 
         responseObject['wordId'] = newWord.id
-        newWord.wordforms_set.create(form = request.POST['text'])        
+        newWord.wordforms_set.create(form = request.POST['text'])'''
 
-    return JsonResponse(responseObject)
+    '''s = SnowballStemmer('spanish');
+    stemed = s.stem(request.POST['text'])'''
+    word = UniversalDictionary.objects.filter(original = request.POST['text'])
 
-def add_to_dictionary(request, word_id):
-    q = UserWords.objects.filter(user = request.user.id, word = word_id)
+    if word.exists():
+        word = word.first()
+        content = {
+            'original': word.original,
+            'translations': []
+        }
+
+        for translation in word.universaltranslation_set.all():
+            content['translations'].append({
+                'translation': translation.translation,
+                'translationId': translation.id
+            })
+    else:
+        content = {
+            'original': 'Перевод не найден'
+        }       
+
+    return render(request, 'mainapp/translation_card_content.html', {'content': content})
+
+def add_to_dictionary(request, translation_id):
+    q = UserWords.objects.filter(user = request.user.id, translation = translation_id)
 
     if not q.exists():
-        request.user.userwords_set.create(word_id = word_id)
+        request.user.userwords_set.create(translation_id = translation_id)
 
     return JsonResponse({})
 
 def get_dictionary_table(request):
     return render(request, 'mainapp/dictionary_table.html', {'user': request.user})
+
+def exercises_page(request):
+    exercises_mapping = [
+        {
+            'header': 'Перевод',
+            'description': 'Выберите перевод предложенного слова на русский из нескольких вариантов',
+            'link': '/excercises/translation/' 
+        },
+        {
+            'header': 'Обратный перевод',
+            'description': 'Выберите перевод предложенного слова на испанский из нескольких вариантов',
+            'link': '/excercises/reverse-translation/' 
+        },
+        {
+            'header': 'Собери слово',
+            'description': 'Соберите слово из букв',
+            'link': '/excercises/construct-the-word/' 
+        },        
+        
+    ]
+    return render(request, 'mainapp/exercises.html', {'user': request.user, 'exercises': exercises_mapping})
