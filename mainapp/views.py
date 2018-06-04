@@ -152,7 +152,11 @@ def get_exercises_translation_word_list(request):
         random.shuffle(user_words_ids)
         responseObject['wordList'] = user_words_ids
     else:
-        for i in (1, 10):
-            responseObject['wordList'].append(user_words_ids[random.randint(1, user_words_count)])
+        random_list = list(range(user_words_count))
+        
+        random.shuffle(random_list)
+        print(random_list)
+        for i in range(10):
+            responseObject['wordList'].append(user_words_ids[random_list[i]])
 
     return JsonResponse(responseObject)        
