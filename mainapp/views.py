@@ -67,7 +67,7 @@ def request_to_dictionary(request):
             'original': 'Перевод не найден'
         }       
 
-    return render(request, 'mainapp/translation_card_content.html', {'content': content})
+    return render(request, 'mainapp/account/translation_card_content.html', {'content': content})
 
 def add_to_dictionary(request, translation_id):
     q = UserWords.objects.filter(user = request.user.id, translation = translation_id)
@@ -78,7 +78,7 @@ def add_to_dictionary(request, translation_id):
     return JsonResponse({})
 
 def get_dictionary_table(request):
-    return render(request, 'mainapp/dictionary_table.html', {'user': request.user})
+    return render(request, 'mainapp/account/dictionary_table.html', {'user': request.user})
 
 def exercises_page(request):
     exercises_mapping = [
