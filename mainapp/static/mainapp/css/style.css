@@ -68,6 +68,24 @@
     right: 5px;
 }
 
+#word-card-content .collection-item {
+	cursor: pointer;
+}
+
+#word-card-content .disabled-item {
+	pointer-events: none;
+}
+
+#exercises-translation-container {
+	padding: 40px 0;
+}
+
+@media(max-width: 767px) {
+	.exercises-link {
+		flex-basis: calc(100% - 30px);
+	}
+}
+
 @media(max-width: 600px) {
 	.welcome-header {
 		font-size: 3rem;
@@ -75,6 +93,16 @@
 
 	.account-page .nav-wrapper .material-icons {
 		margin-right: 0;
+	}
+}
+
+@media(max-width: 400px) {
+	.exercises-link p {
+		display: none;
+	}
+
+	.exercises-link .card-content {
+		height: auto;
 	}
 }
 

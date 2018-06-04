@@ -1,0 +1,7 @@
+{% csrf_token %}
+<ul class="collection with-header">
+	<li class="collection-header"><h4>{{ word }}</h4></li>
+	{% for translation in translations %}
+		<li class="collection-item {% if translation.isRight == 1 %} right-translation {% endif %}">{{ translation.translation }}</li>
+	{% endfor %}
+</ul>

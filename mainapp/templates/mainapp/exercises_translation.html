@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<title>Упражнения</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/materialize/materialize.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/style.css' %}"/>
+</head>
+<body>
+	{% csrf_token %}
+	<ul id="settings-dropdown" class="dropdown-content">
+		<li><a href="/user/logout">Выйти</a></li>
+	</ul>
+	<div class="navbar-fixed">
+		<nav>
+			<div class="nav-wrapper">
+				<ul class="right">
+					<li>
+					    <a href="/">
+					        <i class="material-icons left">book</i>
+					        <span class="hide-on-small-only">Словарь</span>
+					    </a>
+					</li>
+					<li>
+						<a href="/exercises/">
+							<i class="material-icons left">fitness_center</i>
+							<span class="hide-on-small-only">Упражнения</span>
+						</a>
+					</li>
+					<li>
+						<a class="dropdown-trigger" data-target="settings-dropdown">
+							<i class="material-icons">settings</i>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+	<div id="exercises-translation-container" class="container">
+		<div id="word-card">
+			<div id="word-card-content">
+				{% csrf_token %}
+			</div>
+			<a id="get-next-card-btn" class="waves-effect waves-light btn right hide" href="#">Следующее</a>
+			<a id="return-btn" href="/exercises/" class="waves-effect waves-light btn hide" href="#">Вернуться к списку упражнений</a>
+		</div>
+	</div>
+	<script src="{% static 'mainapp/js/jquery-3.3.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'mainapp/js/materialize.min.js' %}"></script>
+	<script src="{% static 'mainapp/js/exercises_translation.js' %}"></script>
+</body>
+</html>

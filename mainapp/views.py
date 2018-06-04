@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseRedirect
-import requests, json
+import requests, json, random
 from django.urls import reverse
 from user.views import account
-from .models import WordForms, UniversalDictionary, UserWords
+from .models import WordForms, UniversalDictionary, UserWords, UniversalTranslation
 from django.contrib.auth.models import User
 #from nltk.stem import SnowballStemmer
 
@@ -84,18 +84,75 @@ def exercises_page(request):
         {
             'header': 'Перевод',
             'description': 'Выберите перевод предложенного слова на русский из нескольких вариантов',
-            'link': '/excercises/translation/' 
+            'link': '/exercises/translation/' 
         },
         {
             'header': 'Обратный перевод',
             'description': 'Выберите перевод предложенного слова на испанский из нескольких вариантов',
-            'link': '/excercises/reverse-translation/' 
+            'link': '/exercises/reverse-translation/' 
         },
         {
             'header': 'Собери слово',
             'description': 'Соберите слово из букв',
-            'link': '/excercises/construct-the-word/' 
+            'link': '/exercises/construct-the-word/' 
         },        
         
     ]
     return render(request, 'mainapp/exercises.html', {'user': request.user, 'exercises': exercises_mapping})
+
+def exercises_translation(request):
+    return render(request, 'mainapp/exercises_translation.html', {})
+
+def get_exercises_translation_word_card(request, user_word_id):
+    user_word = UserWords.objects.get(pk = user_word_id)
+    translation = user_word.translation.translation
+    word_object = user_word.translation.original
+    word = word_object.original
+
+    # Количество переводов в базе. 
+    # Их всегда столько, и первичные ключи располагаются от 1 до этого числа
+    # Сделано, чтобы не запрашивать каждый раз количество записей
+    translations_count = 146518
+
+    random.seed()
+    translations = []
+    translations.append({'translation': translation, 'isRight': 1})
+    # Идентификаторы всех переводов текущего слова, т.к. мы не хотим получить один из них
+    current_word_translations_ids = list(word_object.universaltranslation_set.all().values_list('id', flat = True))
+    # Получение четырех случайных переводов в дополение к одному правильному
+    for i in range(4):
+        # Получаем рандомный идентификатор перевода
+        random_pk = random.randint(1, translations_count)
+        # Гарантируем, что не получим id одного из переводов текущего слова
+        while current_word_translations_ids.count(random_pk) != 0:
+            random_pk = random.randint(1, translations_count)
+
+        translation = UniversalTranslation.objects.get(pk = random_pk).translation
+        # Гарантируем, что перевод не содержит "см.": сокращение от "смотри", отсылающее к другому испанскому слову
+        while translation.find('см.') != -1:
+            random_pk = random.randint(1, translations_count)
+            translation = UniversalTranslation.objects.get(pk = random_pk).translation
+
+        translations.append({'translation': UniversalTranslation.objects.get(pk = random_pk).translation, 'isRight': 0})
+
+    random.shuffle(translations)
+
+    return render(request, 'mainapp/exercises_translation_word_card.html', {'word': word, 'translations': translations})
+
+def get_exercises_translation_word_list(request):
+    user_words_ids = list(request.user.userwords_set.all().values_list('id', flat = True))
+    print(user_words_ids)
+    responseObject = {
+        'wordList': []
+    }
+
+    random.seed()
+    user_words_count = len(user_words_ids)
+    if user_words_count <= 10:
+        random.shuffle(user_words_ids)
+        responseObject['wordList'] = user_words_ids
+    else:
+        for i in (1, 10):
+            responseObject['wordList'].append(user_words_ids[random.randint(1, user_words_count)])
+
+    return JsonResponse(responseObject)        
