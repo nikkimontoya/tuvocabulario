@@ -1,17 +1,18 @@
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponseForbidden
 import requests, json, random
 from django.urls import reverse
-from user.views import account
 from .models import WordForms, UniversalDictionary, UserWords, UniversalTranslation
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+
 #from nltk.stem import SnowballStemmer
 
 def index(request):
     if request.user.is_authenticated:
-        return account(request, request.user.id)
+        return user_account(request, request.user.id)
     else:
-	    return render(request, 'mainapp/index_no_auth.html', {})
+	    return render(request, 'mainapp/index.html', {})
 
 token = '';
 def request_to_dictionary(request):
@@ -98,10 +99,10 @@ def exercises_page(request):
         },        
         
     ]
-    return render(request, 'mainapp/exercises.html', {'user': request.user, 'exercises': exercises_mapping})
+    return render(request, 'mainapp/exercises/index.html', {'user': request.user, 'exercises': exercises_mapping})
 
 def exercises_translation(request):
-    return render(request, 'mainapp/exercises_translation.html', {})
+    return render(request, 'mainapp/exercises/translation/index.html', {})
 
 def get_exercises_translation_word_card(request, user_word_id):
     user_word = UserWords.objects.get(pk = user_word_id)
@@ -137,7 +138,7 @@ def get_exercises_translation_word_card(request, user_word_id):
 
     random.shuffle(translations)
 
-    return render(request, 'mainapp/exercises_translation_word_card.html', {'word': word, 'translations': translations})
+    return render(request, 'mainapp/exercises/translation/word_card.html', {'word': word, 'translations': translations})
 
 def get_exercises_translation_word_list(request):
     user_words_ids = list(request.user.userwords_set.all().values_list('id', flat = True))
@@ -160,3 +161,30 @@ def get_exercises_translation_word_list(request):
             responseObject['wordList'].append(user_words_ids[random_list[i]])
 
     return JsonResponse(responseObject)        
+
+def user_register(request):
+    user = User.objects.create_user(request.POST['email'], request.POST['email'], request.POST['password'])
+    if user is not None:
+        login(request, user)
+        return JsonResponse({'status': 1, 'user_id': user.id})
+    else:   
+        return JsonResponse({'status': 0})
+
+def user_auth(request):
+    user = authenticate(username = request.POST['email'], password = request.POST['password'])
+    if user is not None:
+        login(request, user)
+        return JsonResponse({'status': 1})
+    else:   
+        return JsonResponse({'status': 0})
+
+def user_account(request, user_id):
+    if request.user.id == user_id:
+        return render(request, 'mainapp/account/index.html', {})
+    else:
+        return HttpResponseForbidden()
+        '''return HttpResponseRedirect(reverse('mainapp:index'))'''
+
+def user_logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('mainapp:index'))   
