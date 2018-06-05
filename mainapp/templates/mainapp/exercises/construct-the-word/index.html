@@ -38,13 +38,15 @@
 			</div>
 		</nav>
 	</div>
-	<div id="exercises-translation-container" class="container">
-		<div id="word-card">
-			<div id="word-card-content">
+	<div id="exercises-container" class="container">
+		<div id="word-card" class="card">
+			<div id="word-card-content" class="card-content">
 				{% csrf_token %}
 			</div>
-			<a id="get-next-card-btn" class="waves-effect waves-light btn right hide" href="#">Следующее</a>
-			<a id="return-btn" href="/exercises/" class="waves-effect waves-light btn hide" href="#">Завершить</a>
+			<div class="card-action">
+				<a id="get-next-card-btn" class="waves-effect waves-light btn right hide" href="#">Следующее</a>
+				<a id="return-btn" href="/exercises/" class="waves-effect waves-light btn hide" href="#">Завершить</a>
+			</div>
 		</div>
 	</div>
 	<div class="preloader-overlay hide">

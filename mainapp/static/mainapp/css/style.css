@@ -76,7 +76,7 @@
 	pointer-events: none;
 }
 
-#exercises-translation-container {
+#exercises-container {
 	padding: 40px 0;
 }
 
@@ -127,7 +127,7 @@ a.letter[data-count="0"] {
 
 @media(max-width: 767px) {
 	.exercises-link {
-		flex-basis: calc(100% - 30px);
+		flex-basis: 100%;
 	}
 }
 
@@ -138,6 +138,17 @@ a.letter[data-count="0"] {
 
 	.account-page .nav-wrapper .material-icons {
 		margin-right: 0;
+	}
+
+	#exercises-container .collection {
+		margin: -24px;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+		border: none;
+    }
+
+    #exercises-container .card-action {
+		padding: 16px 12px;
 	}
 }
 
