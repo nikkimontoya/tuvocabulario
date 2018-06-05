@@ -80,6 +80,33 @@
 	padding: 40px 0;
 }
 
+a.letter {
+    padding: 4px;
+    border-radius: 6px;
+    width: 30px;
+    height: 44px;
+    text-align: center;
+    display: inline-block;
+    font-size: 20px;
+    margin-right: 5px;
+    vertical-align: top;
+}
+
+li.empty-letter {
+	display: inline-block;
+}
+
+#letters-container,
+#empty-letters-container {
+	text-align: center;
+	margin: 30px 0;
+}   
+
+a.letter[data-count="0"] {
+	background: #009688 !important;
+	pointer-events: none;
+}
+
 @media(max-width: 767px) {
 	.exercises-link {
 		flex-basis: calc(100% - 30px);

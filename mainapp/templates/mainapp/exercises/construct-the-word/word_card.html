@@ -1,0 +1,12 @@
+{% csrf_token %}
+<h4 class="center-align">{{ translation }}</h4>
+<h5 id="empty-letters-container">
+	{% for letter in word %}
+		<li class="empty-letter empty-place" data-letter="{{ letter }}"></li>
+	{% endfor %}
+</h5>
+<div id="letters-container">
+	{% for letter in letters_list %}
+		<a href='#' class="letter waves-effect waves-light white-text red" data-count="{{ letter.count }}">{{ letter.letter }}</a>
+	{% endfor %}
+</div>

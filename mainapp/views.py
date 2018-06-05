@@ -74,6 +74,12 @@ def exercises_page(request):
 def exercises_translation(request):
     return render(request, 'mainapp/exercises/translation/index.html', {})
 
+def exercises_reverse_translation(request):
+    return render(request, 'mainapp/exercises/reverse-translation/index.html', {})
+
+def exercises_construct_the_word(request):
+    return render(request, 'mainapp/exercises/construct-the-word/index.html', {})        
+
 def get_exercises_translation_word_card(request, user_word_id):
     user_word = UserWords.objects.get(pk = user_word_id)
     translation = user_word.translation.translation
@@ -104,11 +110,79 @@ def get_exercises_translation_word_card(request, user_word_id):
             random_pk = random.randint(1, translations_count)
             translation = UniversalTranslation.objects.get(pk = random_pk).translation
 
-        translations.append({'translation': UniversalTranslation.objects.get(pk = random_pk).translation, 'isRight': 0})
+        translations.append({'translation': translation, 'isRight': 0})
 
     random.shuffle(translations)
 
-    return render(request, 'mainapp/exercises/translation/word_card.html', {'word': word, 'translations': translations})
+    return render(request, 'mainapp/exercises/translation/word_card.html', {
+        'word': word,
+        'translations': translations
+        })
+
+def get_exercises_reverse_translation_word_card(request, user_word_id):
+    user_word = UserWords.objects.get(pk = user_word_id)
+    translation_object = user_word.translation
+    translation = translation_object.translation
+    word_object = translation_object.original
+    word = word_object.original
+
+    # Количество слов в базе. 
+    # Их всегда столько, и первичные ключи располагаются от 1 до этого числа
+    # Сделано, чтобы не запрашивать каждый раз количество записей
+    words_count = 77182
+
+    random.seed()
+    words = []
+    words.append({'word': word, 'isRight': 1})
+
+    # Получение четырех случайных переводов в дополение к одному правильному
+    for i in range(4):
+        # Получаем рандомный идентификатор перевода (с двойки, т.к. первое слово в базе пустое)
+        random_pk = random.randint(2, words_count)
+        # Гарантируем, что не получим id изначального слова
+        while random_pk == word_object.id:
+            random_pk = random.randint(2, words_count)
+
+        word = UniversalDictionary.objects.get(pk = random_pk).original
+
+        words.append({'word': word, 'isRight': 0})
+
+    random.shuffle(words)
+
+    return render(request, 'mainapp/exercises/reverse-translation/word_card.html', {
+        'translation': translation,
+        'words': words
+        })
+
+def get_exercises_construct_the_word_card(request, user_word_id):
+    user_word = UserWords.objects.get(pk = user_word_id)
+    translation_object = user_word.translation
+    translation = translation_object.translation
+    word = translation_object.original.original
+    word_list = list(word)
+    letters_list = []
+
+    while word_list != []:
+        letter_dict = {
+            'letter': word_list[0],
+            'count': word_list.count(word_list[0])
+            }
+        
+
+        for j in range(letter_dict['count']):
+            word_list.remove(letter_dict['letter'])
+
+        letters_list.append(letter_dict)
+
+    random.seed()
+    random.shuffle(letters_list)
+    
+    return render(request, 'mainapp/exercises/construct-the-word/word_card.html', {
+        'word': word,
+        'translation': translation,
+        'letters_list': letters_list
+        })
+
 
 def get_exercises_translation_word_list(request):
     user_words_ids = list(request.user.userwords_set.all().values_list('id', flat = True))
@@ -130,7 +204,7 @@ def get_exercises_translation_word_list(request):
         for i in range(10):
             responseObject['wordList'].append(user_words_ids[random_list[i]])
 
-    return JsonResponse(responseObject)        
+    return JsonResponse(responseObject)           
 
 def user_register(request):
     user = User.objects.create_user(request.POST['email'], request.POST['email'], request.POST['password'])
@@ -153,7 +227,6 @@ def user_account(request, user_id):
         return render(request, 'mainapp/account/index.html', {})
     else:
         return HttpResponseForbidden()
-        '''return HttpResponseRedirect(reverse('mainapp:index'))'''
 
 def user_logout_view(request):
     logout(request)
