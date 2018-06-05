@@ -18,7 +18,7 @@ token = '';
 def request_to_dictionary(request):
     '''s = SnowballStemmer('spanish');
     stemed = s.stem(request.POST['text'])'''
-    word = UniversalDictionary.objects.filter(original = request.POST['text'])
+    word = UniversalDictionary.objects.filter(original__iexact = request.POST['text'])
 
     if word.exists():
         word = word.first()
@@ -176,7 +176,7 @@ def get_exercises_construct_the_word_card(request, user_word_id):
 
     random.seed()
     random.shuffle(letters_list)
-    
+
     return render(request, 'mainapp/exercises/construct-the-word/word_card.html', {
         'word': word,
         'translation': translation,
