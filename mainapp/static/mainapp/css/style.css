@@ -90,6 +90,7 @@ a.letter {
     font-size: 20px;
     margin-right: 5px;
     vertical-align: top;
+    margin-bottom: 5px;
 }
 
 li.empty-letter {
@@ -103,8 +104,25 @@ li.empty-letter {
 }   
 
 a.letter[data-count="0"] {
-	background: #009688 !important;
+	background: #1b5e20 !important;
 	pointer-events: none;
+}
+
+.preloader-overlay {
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    background: rgba(0,0,0,0.4);
+}
+
+.spinner-red-only {
+	border-color: #B71C1C;
 }
 
 @media(max-width: 767px) {

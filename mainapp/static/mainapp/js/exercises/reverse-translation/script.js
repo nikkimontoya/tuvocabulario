@@ -5,6 +5,9 @@
 	function showWordCard(list_id) {
 		var word_id = wordsList[list_id]
 		$.ajax({
+			beforeSend: function() {
+				$('.preloader-overlay').removeClass('hide');
+			},
 			url: '/exercises/reverse-translation/get-word-card/' + word_id + '/',
 			method: 'POST',
 			data: {
@@ -21,13 +24,18 @@
 					next_list_id = -1
 				}
 
-				$('#get-next-card-btn').data('next_list_id', next_list_id).removeClass('hide')				
+				$('#get-next-card-btn').data('next_list_id', next_list_id).removeClass('hide')
+				$('#return-btn').removeClass('hide')		
+				$('.preloader-overlay').addClass('hide');		
 			}
 		});
 	}
 
 	$(document).ready(function() {
 		$.ajax({
+			beforeSend: function() {
+				$('.preloader-overlay').removeClass('hide');
+			},
 			url: '/exercises/reverse-translation/get-words-list/',
 			method: 'POST',
 			data: {
@@ -36,6 +44,7 @@
 			success: function(response) {
 				wordsList = response.wordList
 				showWordCard(0)
+				$('.preloader-overlay').addClass('hide');
 			}
 		});
 	});
@@ -57,12 +66,12 @@
 
 	$('body').on('click', '#word-card-content .collection-item', function() {
 		if(!$(this).hasClass('right-word')) {
-			$(this).addClass('red darken-4');
+			$(this).addClass('red darken-4 white-text');
 		} else {
 			rightAnswersCounter++;
 		}
 
-		$('#word-card-content .right-word').addClass('teal darken-4');
+		$('#word-card-content .right-word').addClass('green darken-4 white-text');
 		$('#word-card-content .collection-item').addClass('disabled-item');
 	});
 })(jQuery);

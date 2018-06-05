@@ -44,9 +44,22 @@
 				{% csrf_token %}
 			</div>
 			<a id="get-next-card-btn" class="waves-effect waves-light btn right hide" href="#">Следующее</a>
-			<a id="return-btn" href="/exercises/" class="waves-effect waves-light btn hide" href="#">Вернуться к списку упражнений</a>
+			<a id="return-btn" href="/exercises/" class="waves-effect waves-light btn hide" href="#">Завершить</a>
 		</div>
 	</div>
+		<div class="preloader-overlay hide">
+		<div class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-red-only">
+		    <div class="circle-clipper left">
+		        <div class="circle"></div>
+		      </div><div class="gap-patch">
+		        <div class="circle"></div>
+		      </div><div class="circle-clipper right">
+		        <div class="circle"></div>
+		      </div>
+		    </div>
+		  </div>
+	 </div>
 	<script src="{% static 'mainapp/js/vendor/jquery-3.3.1.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'mainapp/js/vendor/materialize.min.js' %}"></script>
 	<script src="{% static 'mainapp/js/exercises/reverse-translation/script.js' %}"></script>

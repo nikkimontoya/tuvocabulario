@@ -7,6 +7,9 @@
 	function showWordCard(list_id) {
 		var word_id = wordsList[list_id]
 		$.ajax({
+			beforeSend: function() {
+				$('.preloader-overlay').removeClass('hide');
+			},
 			url: '/exercises/construct-the-word/get-word-card/' + word_id + '/',
 			method: 'POST',
 			data: {
@@ -23,13 +26,18 @@
 					next_list_id = -1
 				}
 
-				$('#get-next-card-btn').data('next_list_id', next_list_id).removeClass('hide')				
+				$('#get-next-card-btn').data('next_list_id', next_list_id).removeClass('hide')
+				$('#return-btn').removeClass('hide')
+				$('.preloader-overlay').addClass('hide');				
 			}
 		});
 	}
 
 	$(document).ready(function() {
 		$.ajax({
+			beforeSend: function() {
+				$('.preloader-overlay').removeClass('hide');
+			},
 			url: '/exercises/construct-the-word/get-words-list/',
 			method: 'POST',
 			data: {
@@ -38,6 +46,7 @@
 			success: function(response) {
 				wordsList = response.wordList
 				showWordCard(0)
+				$('.preloader-overlay').addClass('hide');
 			}
 		});
 	});
@@ -71,7 +80,6 @@
 			firstEmptyLetter.removeClass('empty-place pulse').addClass('filled-place').text(firstEmptyLetter.data('letter'));
 			$(this).attr('data-count', $(this).attr('data-count') - 1);
 		} else {
-			firstEmptyLetter.addClass('pulse');
 			wordErrors++;
 			totalErrors++;
 		}
