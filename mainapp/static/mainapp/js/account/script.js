@@ -26,10 +26,10 @@
         if (text != '') {
         	$.ajax({
         		url: '/dictionary/',
-        		method: 'POST',
+        		method: 'GET',
         		data: {
         			text: text,
-              csrfmiddlewaretoken: csrf_token
+              //csrfmiddlewaretoken: csrf_token
         		},
         		success: function(response) {
               $('#translation-card').html(response);

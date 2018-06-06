@@ -5,6 +5,7 @@ from django.urls import reverse
 from .models import WordForms, UniversalDictionary, UserWords, UniversalTranslation
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import csrf_exempt
 
 #from nltk.stem import SnowballStemmer
 
@@ -15,10 +16,12 @@ def index(request):
 	    return render(request, 'mainapp/index.html', {})
 
 token = '';
+
+@csrf_exempt
 def request_to_dictionary(request):
     '''s = SnowballStemmer('spanish');
     stemed = s.stem(request.POST['text'])'''
-    word = UniversalDictionary.objects.filter(original__iexact = request.POST['text'])
+    word = UniversalDictionary.objects.filter(original__iexact = request.GET['text'])
 
     if word.exists():
         word = word.first()
