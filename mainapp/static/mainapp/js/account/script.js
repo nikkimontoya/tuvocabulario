@@ -2,6 +2,9 @@
   function refreshDictionaryTable() {
     var container = $('#dictionary-table');
     $.ajax({
+      beforeSend: function() {
+        $('.preloader-overlay').removeClass('hide');
+      },
       url: '/get-dictionary-table/',
       method: 'POST',
       data: {
@@ -9,6 +12,7 @@
       },
       success: function(response) {
         container.html(response);
+        $('.preloader-overlay').addClass('hide');
       }
     });
   }
