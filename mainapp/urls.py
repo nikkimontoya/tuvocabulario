@@ -19,5 +19,6 @@ urlpatterns = [
     path('exercises/reverse-translation/get-words-list/', views.get_exercises_translation_word_list, name = 'exercises_translation_word_card'),
     path('exercises/construct-the-word/', views.exercises_construct_the_word, name = 'exercises_construct_the_word'),
     path('exercises/construct-the-word/get-word-card/<int:user_word_id>/', views.get_exercises_construct_the_word_card, name = 'get_exercises_construct_the_word_card'),
-    path('exercises/construct-the-word/get-words-list/', views.get_exercises_translation_word_list, name = 'exercises_translation_word_card')
+    path('exercises/construct-the-word/get-words-list/', views.get_exercises_translation_word_list, name = 'exercises_translation_word_card'),
+    path('exercises/crossword/', views.exercises_crossword, name = 'exercises_crossword'),
 ]

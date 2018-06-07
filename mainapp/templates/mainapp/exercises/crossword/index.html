@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<title>Упражнения | Перевод</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/materialize/materialize.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/style.css' %}"/>
+</head>
+<body>
+	{% csrf_token %}
+	<ul id="settings-dropdown" class="dropdown-content">
+		<li><a href="/user/logout">Выйти</a></li>
+	</ul>
+	<div class="navbar-fixed">
+		<nav>
+			<div class="nav-wrapper">
+				<ul class="right">
+					<li>
+					    <a href="/">
+					        <i class="material-icons left">book</i>
+					        <span class="hide-on-small-only">Словарь</span>
+					    </a>
+					</li>
+					<li>
+						<a href="/exercises/">
+							<i class="material-icons left">fitness_center</i>
+							<span class="hide-on-small-only">Упражнения</span>
+						</a>
+					</li>
+					<li>
+						<a class="dropdown-trigger" data-target="settings-dropdown">
+							<i class="material-icons">settings</i>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+	<div id="exercises-container" class="container hide-on-med-and-down">
+		{{ crossword }}
+		<a class="check-crossword waves-effect waves-light btn" href="#">Проверить</a>
+		<div id="check-modal" class="modal">
+		    <div class="modal-content">
+		    </div>
+		    <div class="modal-footer">
+		      <a href="#!" class="modal-close waves-effect waves-green btn-flat">ОК</a>
+		    </div>
+		  </div>
+	</div>
+	<div id="notice-container" class="container hide-on-large-only">
+		<h4>К сожалению, данное упражнение не доступно на экранах с малым разрешением</h4>
+	</div>
+		<div class="preloader-overlay hide">
+		<div class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-red-only">
+		    <div class="circle-clipper left">
+		        <div class="circle"></div>
+		      </div><div class="gap-patch">
+		        <div class="circle"></div>
+		      </div><div class="circle-clipper right">
+		        <div class="circle"></div>
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	<script src="{% static 'mainapp/js/vendor/jquery-3.3.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'mainapp/js/vendor/materialize.min.js' %}"></script>
+	<script src="{% static 'mainapp/js/exercises/crossword/script.js' %}"></script>
+</body>
+</html>

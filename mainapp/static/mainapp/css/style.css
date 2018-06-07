@@ -125,6 +125,68 @@ a.letter[data-count="0"] {
 	border-color: #B71C1C;
 }
 
+.crossword-table {
+	width: auto;
+	margin-left: 30px;
+}
+
+.crossword-table input {
+	width: 40px;
+	height: 40px;
+	font-size: 28px;
+	text-align: center;
+}
+
+.crossword-table tr {
+	border: none;
+}
+
+.crossword-table td {
+	padding: 3px;
+}
+
+#crossword-container {
+	display: flex;
+	justify-content: space-between;
+}
+
+#crossword-container .collection-header {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.crossword-table .word-highlighted {
+	outline: blue solid 1px;
+	outline-offset: -2px;
+}
+
+.crossword-error {
+	outline-color: #B71C1C;
+	outline: #B71C1C solid 1px;
+	outline-offset: -2px;
+}
+
+.check-crossword {
+	margin-top: 20px;
+}
+
+@media(min-width: 900px) {
+	#crossword-container > * {
+	    max-width: 50%;
+    }
+}
+
+@media(max-width: 899px) {
+	#crossword-container {
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	#crossword-container > * {
+	    flex-basis: 100%;
+    }
+}
+
 @media(max-width: 767px) {
 	.exercises-link {
 		flex-basis: 100%;
@@ -140,7 +202,7 @@ a.letter[data-count="0"] {
 		margin-right: 0;
 	}
 
-	#exercises-container .collection {
+	#exercises-container .card .collection {
 		margin: -24px;
 		border-bottom-left-radius: 0;
 		border-bottom-right-radius: 0;

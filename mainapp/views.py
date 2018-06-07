@@ -6,6 +6,9 @@ from .models import WordForms, UniversalDictionary, UserWords, UniversalTranslat
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
+from .utilities.genxword import Crossword
+from django.template import loader
+from pprint import pprint
 
 #from nltk.stem import SnowballStemmer
 
@@ -21,7 +24,11 @@ token = '';
 def request_to_dictionary(request):
     '''s = SnowballStemmer('spanish');
     stemed = s.stem(request.POST['text'])'''
-    word = UniversalDictionary.objects.filter(original__iexact = request.GET['text'])
+
+    word = UniversalDictionary.objects.filter(original = request.GET['text'])
+
+    if not word.exists():
+        word = UniversalDictionary.objects.filter(original__iexact = request.GET['text'])
 
     if word.exists():
         word = word.first()
@@ -38,9 +45,14 @@ def request_to_dictionary(request):
     else:
         content = {
             'original': 'Перевод не найден'
-        }       
+        }    
 
-    return render(request, 'mainapp/account/translation_card_content.html', {'content': content})
+    response = render(request, 'mainapp/account/translation_card_content.html', {'content': content})
+
+    if request.META.get('HTTP_ORIGIN'):
+        response['Access-Control-Allow-Origin'] = request.META['HTTP_ORIGIN']
+
+    return response
 
 def add_to_dictionary(request, translation_id):
     q = UserWords.objects.filter(user = request.user.id, translation = translation_id)
@@ -70,7 +82,11 @@ def exercises_page(request):
             'description': 'Соберите слово из букв',
             'link': '/exercises/construct-the-word/' 
         },        
-        
+        {
+            'header': 'Кроссворд',
+            'description': 'Разгадайте кроссворд, составленный из ваших слов',
+            'link': '/exercises/crossword/' 
+        },  
     ]
     return render(request, 'mainapp/exercises/index.html', {'user': request.user, 'exercises': exercises_mapping})
 
@@ -81,7 +97,81 @@ def exercises_reverse_translation(request):
     return render(request, 'mainapp/exercises/reverse-translation/index.html', {})
 
 def exercises_construct_the_word(request):
-    return render(request, 'mainapp/exercises/construct-the-word/index.html', {})        
+    return render(request, 'mainapp/exercises/construct-the-word/index.html', {})
+
+def exercises_crossword(request):
+    user_words = request.user.userwords_set.all()
+    word_list = []
+
+    for user_word in user_words:
+        translation_object = user_word.translation
+        word_list.append([
+            translation_object.original.original,
+            translation_object.translation
+            ])
+
+    crossword_object = Crossword(rows = 10, cols = 10, available_words = word_list)
+    crossword_object.compute_crossword()
+    crossword = crossword_object.best_grid
+    index_list = crossword_object.best_grid
+    translations_list = {
+        'horizontal': [],
+        'vertical': []
+    }
+
+    
+    rows = len(index_list)
+    cols = len(index_list[0])
+
+    for i in range(rows):
+        for j in range(cols):
+            index_list[i][j] = {
+                'indexhor': 0,
+                'indexver': 0,
+                'letter': ' ',
+                'first_letter_hor': False,
+                'first_letter_ver': False
+            }
+
+    hor_counter = 0
+    ver_counter = 0
+    for word_l in crossword_object.best_wordlist:
+        word = word_l[0]
+        translation = word_l[1]
+        row = word_l[2]
+        col = word_l[3]
+        isHorisontal = word_l[4] == 0
+        
+        tr_obj = {
+            'translation': translation
+            }
+
+        if isHorisontal:
+            hor_counter += 1
+            tr_obj['index'] = hor_counter
+            translations_list['horizontal'].append(tr_obj)
+        else:
+            ver_counter += 1
+            tr_obj['index'] = ver_counter
+            translations_list['vertical'].append(tr_obj)
+        
+        first_letter = True
+        for letter in word:            
+            index_list[row][col]['letter'] = letter;            
+            if isHorisontal:
+                index_list[row][col]['indexhor'] = hor_counter;
+                index_list[row][col]['first_letter_hor'] = first_letter;
+                col += 1
+            else:
+                index_list[row][col]['indexver'] = ver_counter;
+                index_list[row][col]['first_letter_ver'] = first_letter;
+                row +=1
+            first_letter = False                
+
+    crossword_table_template = loader.get_template('mainapp/exercises/crossword/crossword.html')
+    crossword_table = crossword_table_template.render({'crossword': index_list, 'translations': translations_list}, request)
+
+    return render(request, 'mainapp/exercises/crossword/index.html', {'crossword': crossword_table})            
 
 def get_exercises_translation_word_card(request, user_word_id):
     user_word = UserWords.objects.get(pk = user_word_id)

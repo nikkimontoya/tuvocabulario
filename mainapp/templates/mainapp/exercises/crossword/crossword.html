@@ -1,0 +1,31 @@
+<div id="crossword-container">
+<div>
+	<ul class="collection with-header">
+		<li class="collection-header"><p>По горизонтали</p></li>
+		{% for translation in translations.horizontal %}
+			<a href="#" class="collection-item" data-indexhor="{{ translation.index }}">{{ translation.translation }}</a>
+		{% endfor %}
+	</ul>
+	<ul class="collection with-header">
+		<li class="collection-header"><p>По вертикали</p></li>
+		{% for translation in translations.vertical %}
+			<a href="#" class="collection-item" data-indexver="{{ translation.index }}">{{ translation.translation }}</a>
+		{% endfor %}
+	</ul>	
+	</div>
+<div>
+	<table class="crossword-table">
+		{% for line in crossword %}
+			<tr>
+				{% for letter in line %}
+					<td>
+						{% if letter.letter != ' ' %}
+							<input type="text" class="browser-default{% if letter.first_letter_hor %} first-letter-hor {% endif %}{% if letter.first_letter_ver %} first-letter-ver {% endif %}" maxlength="1" data-indexhor="{{ letter.indexhor }}" data-indexver="{{ letter.indexver }}" data-letter="{{ letter.letter }}"/>
+						{% endif %}
+					</td>
+				{% endfor %}
+			</tr>
+		{% endfor %}
+	</table>
+	</div>
+</div>
