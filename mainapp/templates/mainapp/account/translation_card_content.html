@@ -3,7 +3,15 @@
 		<i class="material-icons">close</i>
 	</a>
     {% csrf_token %}
-    <li class="collection-header"><h4>{{ content.original }}</h4></li>
+    <li class="collection-header"><h4>
+        {{ content.original }}
+        {% if content.sound != '' %}
+            <audio src="{{ content.sound }}"></audio>
+            <i class="icon-sound material-icons">volume_up</i>
+        {% else %}
+            <i class="icon-sound-off material-icons">volume_off</i> 
+        {% endif %}
+    </h4></li>
     {% for translation in content.translations %}
     	<a class="collection-item add-to-dictionary-link" href="add-to-dictionary/{{ translation.translationId }}">
     		<i class="material-icons left">add</i>

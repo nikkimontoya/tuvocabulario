@@ -7,8 +7,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from .utilities.genxword import Crossword
+from .utilities.utilities import get_sound_file_name
 from django.template import loader
 from pprint import pprint
+import base64
+import os
 
 #from nltk.stem import SnowballStemmer
 
@@ -17,8 +20,6 @@ def index(request):
         return user_account(request, request.user.id)
     else:
 	    return render(request, 'mainapp/index.html', {})
-
-token = '';
 
 @csrf_exempt
 def request_to_dictionary(request):
@@ -34,18 +35,19 @@ def request_to_dictionary(request):
         word = word.first()
         content = {
             'original': word.original,
-            'translations': []
+            'translations': [],
+            'sound': get_sound_file_name(word)
         }
 
         for translation in word.universaltranslation_set.all():
             content['translations'].append({
                 'translation': translation.translation,
                 'translationId': translation.id
-            })
+            }) 
     else:
         content = {
             'original': 'Перевод не найден'
-        }    
+        }           
 
     response = render(request, 'mainapp/account/translation_card_content.html', {'content': content})
 
@@ -62,8 +64,27 @@ def add_to_dictionary(request, translation_id):
 
     return JsonResponse({})
 
+def remove_from_dictionary(request):
+    UserWords.objects.get(pk = request.POST['word_id']).delete()
+    return JsonResponse({})
+
 def get_dictionary_table(request):
-    return render(request, 'mainapp/account/dictionary_table.html', {'user': request.user})
+    words = []
+    user_words = request.user.userwords_set.all()
+    soundsDir = os.path.dirname(__file__) + '/static/mainapp/sounds/'
+    for word in user_words:
+        translation_object = word.translation
+        word_object = translation_object.original
+        soundFileName = get_sound_file_name(word_object)
+
+        words.append({
+            'word': word_object.original,
+            'translation': translation_object.translation,
+            'sound': soundFileName,
+            'user_word_id': word.id
+            })           
+
+    return render(request, 'mainapp/account/dictionary_table.html', {'words': words})
 
 def exercises_page(request):
     exercises_mapping = [
@@ -86,6 +107,11 @@ def exercises_page(request):
             'header': 'Кроссворд',
             'description': 'Разгадайте кроссворд, составленный из ваших слов',
             'link': '/exercises/crossword/' 
+        },
+        {
+            'header': 'Аудирование',
+            'description': 'Запишите слово, прослушав его произношение',
+            'link': '/exercises/audio/' 
         },  
     ]
     return render(request, 'mainapp/exercises/index.html', {'user': request.user, 'exercises': exercises_mapping})
@@ -171,7 +197,10 @@ def exercises_crossword(request):
     crossword_table_template = loader.get_template('mainapp/exercises/crossword/crossword.html')
     crossword_table = crossword_table_template.render({'crossword': index_list, 'translations': translations_list}, request)
 
-    return render(request, 'mainapp/exercises/crossword/index.html', {'crossword': crossword_table})            
+    return render(request, 'mainapp/exercises/crossword/index.html', {'crossword': crossword_table})  
+
+def exercises_audio(request):
+    return render(request, 'mainapp/exercises/audio/index.html', {})
 
 def get_exercises_translation_word_card(request, user_word_id):
     user_word = UserWords.objects.get(pk = user_word_id)
@@ -276,10 +305,41 @@ def get_exercises_construct_the_word_card(request, user_word_id):
         'letters_list': letters_list
         })
 
+def get_exercises_audio_word_card(request, user_word_id):
+    user_word = UserWords.objects.get(pk = user_word_id)
+    word_object = user_word.translation.original
+
+    return render(request, 'mainapp/exercises/audio/word_card.html', {
+        'word': word_object.original,
+        'sound': '/static/mainapp/sounds/' + word_object.universalsounds_set.all().first().soundfile
+        })    
+
+def get_exercises_audio_word_list(request):
+    # Получение всех id всех слов пользователя, у которых есть звуковые файлы
+    user_words_ids = list(request.user.userwords_set.exclude(translation__original__universalsounds__soundfile = '').values_list('id', flat = True))
+    responseObject = {
+        'wordList': []
+    }
+
+    random.seed()
+    user_words_count = len(user_words_ids)
+    if user_words_count <= 10:
+        random.shuffle(user_words_ids)
+        responseObject['wordList'] = user_words_ids
+    else:
+        random_list = list(range(user_words_count))
+        
+        random.shuffle(random_list)
+        print(random_list)
+        for i in range(10):
+            responseObject['wordList'].append(user_words_ids[random_list[i]])
+
+    return JsonResponse(responseObject)
+
 
 def get_exercises_translation_word_list(request):
     user_words_ids = list(request.user.userwords_set.all().values_list('id', flat = True))
-    print(user_words_ids)
+
     responseObject = {
         'wordList': []
     }

@@ -1,0 +1,15 @@
+{% csrf_token %}
+
+<div class="audio-card">
+	<div class="sound-container">	
+		<audio autoplay src="{{ sound }}"></audio>
+		<i class="icon-sound material-icons large">volume_up</i>
+	</div>
+	<div class="input-container">
+		<input type="text" data-word="{{ word }}"/>
+	</div>
+	<div class="result-content hide">
+		<div class="result-right green-text"></div>
+		<div class="result-wrong red-text"></div>
+	</div>
+</div>

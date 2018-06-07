@@ -8,6 +8,7 @@ urlpatterns = [
     path('user/auth/', views.user_auth, name = 'auth'),
     path('user/logout/', views.user_logout_view, name = 'logout'),
     path('dictionary/', views.request_to_dictionary, name = 'dictionary'),
+    path('remove-from-dictionary/', views.remove_from_dictionary, name = 'remove_word'),
     path('add-to-dictionary/<int:translation_id>', views.add_to_dictionary, name = 'add_word'),
     path('get-dictionary-table/', views.get_dictionary_table, name = 'get_dictionary_table'),
     path('exercises/', views.exercises_page, name = 'exercises_page'),
@@ -21,4 +22,7 @@ urlpatterns = [
     path('exercises/construct-the-word/get-word-card/<int:user_word_id>/', views.get_exercises_construct_the_word_card, name = 'get_exercises_construct_the_word_card'),
     path('exercises/construct-the-word/get-words-list/', views.get_exercises_translation_word_list, name = 'exercises_translation_word_card'),
     path('exercises/crossword/', views.exercises_crossword, name = 'exercises_crossword'),
+    path('exercises/audio/get-word-card/<int:user_word_id>/', views.get_exercises_audio_word_card, name = 'exercises_audio_word_card'),
+    path('exercises/audio/get-words-list/', views.get_exercises_audio_word_list, name = 'exercises_audio_word_list'),
+    path('exercises/audio/', views.exercises_audio, name = 'exercises_audio'),
 ]

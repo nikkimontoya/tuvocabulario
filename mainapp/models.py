@@ -32,3 +32,7 @@ class UniversalTranslation(models.Model):
 class UserWords(models.Model):
 	user = models.ForeignKey(User, on_delete = models.CASCADE)
 	translation = models.ForeignKey(UniversalTranslation, on_delete = models.CASCADE, default = 1)	
+
+class UniversalSounds(models.Model):
+	soundfile = models.CharField(max_length = 200)
+	original = models.ForeignKey(UniversalDictionary, on_delete = models.CASCADE)	

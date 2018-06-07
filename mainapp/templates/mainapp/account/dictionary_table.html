@@ -4,13 +4,24 @@
 		<tr>
 			<th>Слово</th>
 			<th>Перевод</th>
+			<th>Звук</th>
+			<th><th>
 		</tr>
 	</thead>
 	<tbody>
-		{% for user_word in user.userwords_set.all %}
-		<tr>
-			<td>{{ user_word.translation.original.original }}</td>
-			<td>{{ user_word.translation.translation }}</td>
+		{% for word in words %}
+		<tr data-userwordid="{{ word.user_word_id }}">
+			<td>{{ word.word }}</td>
+			<td>{{ word.translation }}</td>
+			<td width="10%">
+				{% if word.sound != '' %}
+					<audio src="{{ word.sound }}"></audio>
+					<i class="icon-sound material-icons">volume_up</i>
+				{% else %}
+					<i class="icon-sound-off material-icons">volume_off</i>	
+				{% endif %}
+			</td>
+			<td width="10%"><i class="delete-icon material-icons">delete</i></td>
 		</tr>
 		{% endfor %}
 	</tbody>

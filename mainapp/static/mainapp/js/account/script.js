@@ -16,6 +16,7 @@
 	$(document).ready(function(){
 		$(".dropdown-trigger").dropdown({ coverTrigger: false });
     refreshDictionaryTable();
+    $('.modal').modal();
 	});
 
 	$('#search-words-submit').click(function(e) {
@@ -59,5 +60,29 @@
   $('body').on('click', '.close-translation', function(e) {
     e.preventDefault();
     $('#translation-card').addClass('hide');
+  });
+
+  $('body').on('click', '.icon-sound', function(e) {
+    $(this).prev('audio')[0].play()
+  });
+
+  $('body').on('click', '.delete-icon', function(e) {
+    $('#deleting-word-confirm').modal('open').data('id', $(this).closest('tr').data('userwordid'));
+  });
+
+  $('body').on('click', '#deleting-word-confirm-btn', function(e) {
+    var csrf_token = $("#search-words-form").find('input[name=csrfmiddlewaretoken]').val();
+    $.ajax({
+        url: '/remove-from-dictionary/',
+        method: 'POST',
+        data: {
+          word_id: $('#deleting-word-confirm').data('id'),
+          csrfmiddlewaretoken: csrf_token
+        },
+        success: function(response) {
+          refreshDictionaryTable();
+          M.toast({html: 'Слово было успешно удалено из вашего словаря'})
+        }
+      });
   });
 })(jQuery);

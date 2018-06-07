@@ -7,6 +7,7 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/materialize/materialize.css' %}"/>
 	<link rel="stylesheet" type="text/css" href="{% static 'mainapp/css/style.css' %}"/>
+	<link rel="icon" href="{% static 'mainapp/images/icon.png' %}" sizes="32x32"/>
 </head>
 <body class="account-page">
 	<ul id="settings-dropdown" class="dropdown-content">
@@ -56,6 +57,15 @@
 		<h2 class="red-text text-darken-4">Ваши слова</h2>
 		<div id="dictionary-table">
 			{% csrf_token %}
+		</div>
+		<div id="deleting-word-confirm" class="modal">
+		    <div class="modal-content">
+		      <p>Вы точно хотите удалить слово <span class="deleting-word"></span> из своего словаря?</p>
+		    </div>
+		    <div class="modal-footer">
+		      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Нет</a>
+		      <a id="deleting-word-confirm-btn" href="#!" class="modal-close waves-effect waves-green btn-flat">Да</a>
+		    </div>
 		</div>
 	</section>
 	<script src="{% static 'mainapp/js/vendor/jquery-3.3.1.min.js' %}"></script>

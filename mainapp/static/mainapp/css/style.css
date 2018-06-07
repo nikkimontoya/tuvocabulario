@@ -23,6 +23,23 @@
 	padding: 40px 0;
 }
 
+.audio-card {
+	width: 300px;
+	max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.sound-container {
+	margin-bottom: 30px
+}
+
+.input-container input,
+.result-content {
+	text-align: center;
+    font-size: 30px !important;
+}
+
 #search-words-form {
 	display: flex;
     flex-wrap: nowrap;
@@ -168,6 +185,20 @@ a.letter[data-count="0"] {
 
 .check-crossword {
 	margin-top: 20px;
+}
+
+.icon-sound,
+.delete-icon {
+	cursor: pointer;
+}
+
+.icon-sound-off {
+	cursor: default;
+}
+
+#translation-card .collection-header .icon-sound {
+	vertical-align: bottom;
+    margin-left: 10px;
 }
 
 @media(max-width: 992px) {
