@@ -47,12 +47,12 @@
   $('body').on('click', '.add-to-dictionary-link', function(e) {
     e.preventDefault();
     var button = $(this);
-    var csrf_token = button.closest('ul').find('input[name=csrfmiddlewaretoken]').val();    
+    //var csrf_token = button.closest('ul').find('input[name=csrfmiddlewaretoken]').val();    
     $.ajax({
       url: button.attr('href'),
-      method: 'POST',
+      method: 'GET',
       data: {
-        csrfmiddlewaretoken: csrf_token
+        //csrfmiddlewaretoken: csrf_token
       },
       success: function(response) {
         refreshDictionaryTable();
