@@ -25,12 +25,14 @@
 	    		success: function(response) {
 		    		if(response.status == 0) {
 	    				$("#reg-form-email").addClass("invalid");
-	    				$("#reg-form-password").addClass("invalid");
+	    				$("#reg-form-password").addClass("invalid");                        
 	    			} else if (response.status == 1) {
 	    				window.location.reload(true)
 	    			}
 	    		}
 	    	});
+        } else {
+            M.toast({html: 'Пароли не совпадают!'})
         }
     });
 
@@ -49,6 +51,7 @@
     			if(response.status == 0) {
     				$("#auth-form-email").addClass("invalid");
     				$("#auth-form-password").addClass("invalid");
+                    M.toast({html: 'Некорректное сочетание логина и пароля!'})
     			} else if (response.status == 1) {
     				window.location.reload(true)
     			}
