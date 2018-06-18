@@ -57,12 +57,15 @@ def request_to_dictionary(request):
     return response
 
 def add_to_dictionary(request, translation_id):
-    q = UserWords.objects.filter(user = request.user.id, translation = translation_id)
+    if request.user.is_authenticated:
+        q = UserWords.objects.filter(user = request.user.id, translation = translation_id)
 
-    if not q.exists():
-        request.user.userwords_set.create(translation_id = translation_id)
+        if not q.exists():
+            request.user.userwords_set.create(translation_id = translation_id)
 
-    return JsonResponse({})
+        return JsonResponse({'status': 1})
+    else:
+        return JsonResponse({'status': 0, 'message': 'Пожалуйста, авторизуйтесь, чтобы иметь возможность добавлять слова'})    
 
 def remove_from_dictionary(request):
     UserWords.objects.get(pk = request.POST['word_id']).delete()
