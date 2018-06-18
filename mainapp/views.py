@@ -13,7 +13,7 @@ from pprint import pprint
 import base64
 import os
 
-#from nltk.stem import SnowballStemmer
+from .utilities.snowballstemmer import stemmer
 
 def index(request):
     if request.user.is_authenticated:
@@ -23,13 +23,13 @@ def index(request):
 
 @csrf_exempt
 def request_to_dictionary(request):
-    '''s = SnowballStemmer('spanish');
-    stemed = s.stem(request.POST['text'])'''
-
     word = UniversalDictionary.objects.filter(original = request.GET['text'])
 
     if not word.exists():
         word = UniversalDictionary.objects.filter(original__iexact = request.GET['text'])
+    if not word.exists():
+        s = stemmer('spanish');
+        word = UniversalDictionary.objects.filter(original__startswith = s.stemWord(request.GET['text']))
 
     if word.exists():
         word = word.first()
