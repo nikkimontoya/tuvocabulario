@@ -78,7 +78,7 @@
 		inputContainer.addClass('hide');
 
 		if(userAnswer != rightAnswer) {			
-			resultContainer.find('.result-wrong').text(userAnswer).removeClass('hide');
+			resultContainer.find('.result-wrong').find('del').text(userAnswer).end().removeClass('hide');
 		} else {
 			rightAnswersCounter++;
 		}

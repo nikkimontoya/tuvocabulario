@@ -10,12 +10,13 @@
 	<link rel="icon" href="{% static 'mainapp/images/icon.png' %}" sizes="32x32"/>
 </head>
 <body>
-	<ul id="settings-dropdown" class="dropdown-content">
-		<li><a href="/user/logout">Выйти</a></li>
-	</ul>
 	<div class="navbar-fixed">
 		<nav>
 			<div class="nav-wrapper">
+				<a href="/" class="tuvoc-logo">
+					<img src="{% static 'mainapp/images/icon.png' %}"/>
+					<span class="hide-on-small-only">Tu Vocabulario</span>
+				</a>
 				<ul class="right">
 					<li>
 					    <a href="/">
@@ -30,8 +31,8 @@
 						</a>
 					</li>
 					<li>
-						<a class="dropdown-trigger" data-target="settings-dropdown">
-							<i class="material-icons">settings</i>
+						<a href="/user/logout">
+							<i class="material-icons">forward</i>
 						</a>
 					</li>
 				</ul>

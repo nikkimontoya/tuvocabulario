@@ -201,6 +201,28 @@ a.letter[data-count="0"] {
     margin-left: 10px;
 }
 
+.tuvoc-logo {
+	display: inline-block;
+	height: 64px;
+	padding: 14px 8px;
+	margin-left: 7px;
+}
+
+.tuvoc-logo img {
+	height: 36px;
+	width: 36px;
+	vertical-align: top;
+}
+
+.tuvoc-logo span {
+	font-size: 24px;
+    vertical-align: top;
+    margin-left: 10px;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+}
+
 @media(max-width: 992px) {
 	.exercises-links-container > a[href="/exercises/crossword/"] {
 		display: none;
@@ -233,6 +255,11 @@ a.letter[data-count="0"] {
 @media(max-width: 600px) {
 	.welcome-header {
 		font-size: 3rem;
+	}
+
+	.tuvoc-logo {
+		height: 56px;
+		padding: 10px 8px;
 	}
 
 	.account-page .nav-wrapper .material-icons {
