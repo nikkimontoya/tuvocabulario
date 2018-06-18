@@ -13,7 +13,7 @@ from pprint import pprint
 import base64
 import os
 
-from .utilities.snowballstemmer import stemmer
+from pattern import es
 
 def index(request):
     if request.user.is_authenticated:
@@ -28,8 +28,8 @@ def request_to_dictionary(request):
     if not word.exists():
         word = UniversalDictionary.objects.filter(original__iexact = request.GET['text'])
     if not word.exists():
-        s = stemmer('spanish');
-        word = UniversalDictionary.objects.filter(original__startswith = s.stemWord(request.GET['text']))
+        text = es.parse(request.GET['text'], lemmata = True).split('/')[4]
+        word = UniversalDictionary.objects.filter(original__iexact = text)
 
     if word.exists():
         word = word.first()
